@@ -1,4 +1,4 @@
-# Create `user_db`
+# Create `user_db` table and `users` table.
 
 ```
 -- Create the user_db database if it doesn't exist
