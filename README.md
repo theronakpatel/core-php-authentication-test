@@ -3,7 +3,7 @@
 
 # Notes:
 ### Please track how long it will take you to solve this test case (start the timer now 🙂)
-- It took max 8 hours
+- It took max 9 hours
 
 ### The design of the web application should be based on the provided theme.
 - Added.
@@ -23,4 +23,6 @@
 ### Demonstrate the final application
 ### Remember to mention how long time it took you to do the test case in the video
 ### Send us this video
-- 
+
+- Long Video: https://www.loom.com/share/855e086c85fd4d53bb584d94497b85e4
+- Short Video (just app demo):  

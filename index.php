@@ -33,11 +33,11 @@
                                         <form class="theme-form" id="login-form">
                                             <div class="mb-3">
                                                 <label class="col-form-label pt-0">Username</label>
-                                                <input class="form-control" type="text" name="username" id="username" required>
+                                                <input class="form-control" type="text" name="username" id="username" required placeholder="Enter username">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="col-form-label">Password</label>
-                                                <input class="form-control" type="password" name="password" id="password" required>
+                                                <input class="form-control" type="password" name="password" id="password" required placeholder="Enter password">
                                             </div>
                                             <div class="mb-3">
                                                 <div id="login-message"></div>
