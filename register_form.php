@@ -26,7 +26,7 @@
                                 <div class="card mt-4 p-4">
                                     <h4 class="text-center">NEW USER</h4>
                                     <h6 class="text-center">Enter your Username and Password For Signup</h6>
-                                    <form class="theme-form" action="register.php" method="POST" onsubmit="return validateForm()">
+                                    <form class="theme-form" id="registration-form">
 
                                         <div class="mb-3">
                                             <label class="col-form-label">User Name</label>
@@ -52,13 +52,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="mb-3">
+                                            <div id="registration-response"></div>
+                                        </div>
                                         <div class="row g-2">
                                             <div class="col-sm-4">
                                                 <button class="btn btn-primary" type="submit">Sign Up</button>
                                             </div>
                                             <div class="col-sm-8">
-                                                <div class="text-start mt-2 m-l-20">Are you already user?  <a
-                                                        class="btn-link text-capitalize" href="index.php">Login</a>
+                                                <div class="text-start mt-2 m-l-20">Are you already user?  <a class="btn-link text-capitalize" href="index.php">Login</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,16 +78,33 @@
     <!-- page-wrapper Ends-->
     <?php include_once('./pages/scripts.php') ?>
     <script>
-        function validateForm() {
-            var password = document.getElementById("password").value;
-            var confirm_password = document.getElementById("confirm_password").value;
+        $(document).ready(function() {
+            $("#registration-form").submit(function(event) {
+                event.preventDefault();
 
-            if (password !== confirm_password) {
-                alert("Passwords do not match.");
-                return false;
-            }
-            return true;
-        }
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "register.php",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            $("#registration-response").html("<div class='alert alert-success'>Registration successful</div>");
+                            setTimeout(function(){
+                                window.location.href = 'profile.php';
+                            }, 2000);
+                        } else {
+                            $("#registration-response").html("<div class='alert alert-danger'>"+response.message+"</div>");
+                        }
+                    },
+                    error: function() {
+                        $("#registration-response").html("<div class='alert alert-danger'>Error: An error occurred while processing your request.</div>");
+                    }
+                });
+            });
+        });
     </script>
 </body>
 

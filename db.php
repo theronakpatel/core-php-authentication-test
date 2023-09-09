@@ -1,12 +1,9 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
-$servername = "localhost"; // Replace with your MySQL server name
-$username = "ronak"; // Replace with your MySQL username
-$password = "password"; // Replace with your MySQL password
-$dbname = "user_db"; // Replace with your MySQL database name
+$servername = getenv('SERVERNAME');
+$username = getenv('USERNAME');
+$password = getenv('PASSWORD');
+$dbname = getenv('DBNAME');
 
 // Create a connection
 try {
@@ -17,5 +14,6 @@ try {
 } catch (Exception $e) {
     die("Error: " . $e->getMessage());
 }
+
 
 ?>

@@ -10,7 +10,35 @@ $email = $_POST['email'];
 
 // Validate user input
 if ($password !== $confirm_password) {
-    die("Error: Passwords do not match.");
+    $response = array('success' => false, 'message' => 'Passwords do not match.');
+    echo json_encode($response);
+    exit();
+}
+
+// Check if username already exists
+$query_username = "SELECT username FROM users WHERE username = ?";
+$stmt_username = $conn->prepare($query_username);
+$stmt_username->bind_param("s", $username);
+$stmt_username->execute();
+$stmt_username->store_result();
+
+// Check if email already exists
+$query_email = "SELECT email FROM users WHERE email = ?";
+$stmt_email = $conn->prepare($query_email);
+$stmt_email->bind_param("s", $email);
+$stmt_email->execute();
+$stmt_email->store_result();
+
+if ($stmt_username->num_rows > 0) {
+    $response = array('success' => false, 'message' => 'Username already exists.');
+    echo json_encode($response);
+    exit();
+}
+
+if ($stmt_email->num_rows > 0) {
+    $response = array('success' => false, 'message' => 'Email already exists.');
+    echo json_encode($response);
+    exit();
 }
 
 // Hash the password securely
@@ -27,14 +55,19 @@ if ($stmt->execute()) {
     $_SESSION['user_id'] = $stmt->insert_id; // Store the newly created user's ID in the session
     $_SESSION['username'] = $username;
 
-    // Redirect to the user's profile page
-    header("Location: profile.php");
-    exit();
+    // Prepare success response
+    $response = array('success' => true, 'message' => 'Registration successful');
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    // Prepare error response
+    $response = array('success' => false, 'message' => 'Error: ' . $sql . '<br>' . $conn->error);
 }
 
-// Close the database connection
+// Close the database connections
 $stmt->close();
+$stmt_username->close();
+$stmt_email->close();
 $conn->close();
+
+// Send the JSON response
+echo json_encode($response);
 ?>

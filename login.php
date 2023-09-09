@@ -12,7 +12,9 @@ try {
 
     // Validate user input (you may add more validation as needed)
     if (empty($username) || empty($password)) {
-        header("Location: index.php");
+        $response = array("success" => false, "message" => "Username and password are required.");
+        echo json_encode($response);
+        exit();
     }
 
     // Query the database to retrieve the user's hashed password
@@ -29,11 +31,10 @@ try {
     
     $stmt->bind_result($user_id, $hashed_password);
     if ($stmt->fetch() && password_verify($password, $hashed_password)) {
+        $stmt->close();
         // Login successful, set the user's session
         $_SESSION['user_id'] = $user_id;
         $_SESSION['username'] = $username;
-        // Close the result set
-        $stmt->close();
 
         // Update the last login date/time
         $last_login = date("Y-m-d H:i:s");
@@ -50,19 +51,22 @@ try {
         
         $update_stmt->close();
 
-        // Redirect to the user's profile page
-        header("Location: profile.php");
-        exit();
+        // Login successful response
+        $response = array("success" => true, "message" => "Login successful.");
+        echo json_encode($response);
     } else {
+        $stmt->close();
         // Invalid login attempt
-        echo "Invalid login credentials. Please try again.";
+        $response = array("success" => false, "message" => "Invalid login credentials. Please try again.");
+        echo json_encode($response);
     }
 
     // Close the statement and the connection
-    $stmt->close();
+    
     $conn->close();
 } catch (Exception $e) {
     // Handle exceptions, e.g., log the error or display a user-friendly message
-    echo "An error occurred: " . $e->getMessage();
+    $response = array("success" => false, "message" => "An error occurred: " . $e->getMessage());
+    echo json_encode($response);
 }
 ?>

@@ -30,25 +30,24 @@
                                             <h4>LOGIN</h4>
                                             <h6>Enter your Username and Password </h6>
                                         </div>
-                                        <form class="theme-form" action="login.php" method="POST">
+                                        <form class="theme-form" id="login-form">
                                             <div class="mb-3">
                                                 <label class="col-form-label pt-0">Username</label>
-                                                <input class="form-control" type="text" name="username" id="username"
-                                                    required>
+                                                <input class="form-control" type="text" name="username" id="username" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="col-form-label">Password</label>
-                                                <input class="form-control" type="password" name="password"
-                                                    id="password" required>
+                                                <input class="form-control" type="password" name="password" id="password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div id="login-message"></div>
                                             </div>
                                             <div class="form-row mt-3">
-                                                <input type="submit" class="btn btn-primary btn-block w-100"
-                                                    name="LOGIN" />
+                                                <input type="submit" class="btn btn-primary btn-block w-100" name="LOGIN" value="LOGIN" />
                                             </div>
                                             <div class="row g-2">
                                                 <div class="col-sm-8">
-                                                    <div class="text-start mt-2 m-l-20">Want to register yourself?  <a
-                                                            class="btn-link text-capitalize" href="register_form.php">Signup</a>
+                                                    <div class="text-start mt-2 m-l-20">Want to register yourself?  <a class="btn-link text-capitalize" href="register_form.php">Signup</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,6 +63,40 @@
         </div>
     </div>
     <?php include_once('./pages/scripts.php') ?>
+    <script>
+        $(document).ready(function() {
+            $('#login-form').submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Serialize the form data into a JSON object
+                var formData = {
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                };
+
+                // Send an AJAX POST request to the login.php script
+                $.ajax({
+                    type: 'POST',
+                    url: 'login.php',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // If login is successful, redirect to another page or perform other actions
+                            window.location.href = 'profile.php';
+                        } else {
+                            // Display the error message
+                            $('#login-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        }
+                    },
+                    error: function() {
+                        // Handle any AJAX errors here
+                        $('#login-message').html('<div class="alert alert-danger">An error occurred while processing your request.</div>');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

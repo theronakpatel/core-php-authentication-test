@@ -1,5 +1,5 @@
 <head>
-<?php $baseurl = 'http://'. $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?>
+<?php $baseurl = 'http://'. $_SERVER['SERVER_NAME'].':8080'.$_SERVER['REQUEST_URI']; ?>
 <base href="<?= $baseurl ?>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
