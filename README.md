@@ -25,4 +25,4 @@
 ### Send us this video
 
 - Long Video: https://www.loom.com/share/855e086c85fd4d53bb584d94497b85e4
-- Short Video (just app demo):  
+- Short Video (just app demo): https://www.loom.com/share/2f3a96399c5c4213a1f969f480f4f5e9 
